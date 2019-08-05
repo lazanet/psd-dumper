@@ -1,11 +1,15 @@
 from util import *
 
+
 def handle(curr_id):
 	with count.get_lock():
 		count.value += 1
 		print("{:8.4f}% id={} ".format(count.value*100/listLen, curr_id), end="")
+	fetch_player(curr_id)
+
+def fetch_player(curr_id, update=False):
 	
-	if os.path.isfile(os.path.join("..", "data", "players", "{}.json".format(curr_id))):
+	if not update and os.path.isfile(os.path.join("..", "data", "players", "{}.json".format(curr_id))):
 		print("skip")
 		return
 
@@ -28,12 +32,12 @@ if __name__ == '__main__':
 	with open(os.path.join("..", "data", 'all_players.json')) as json_file:
 	    data = json.load(json_file)
 	
+	save(exp_json(time()), os.path.join("..", "data", 'last_time_players.json'))
+	
+	
 	count = Value('i', -1)
 	init_globals(count, len(data))
 
 	with Pool(initializer=init_globals, initargs=(count, len(data), )) as pool: 
-		pool.map(handle, data.keys())
-	
-	#for key in data:
-	#	handle(data[key])	
+		pool.map(handle, data.keys())	
 	

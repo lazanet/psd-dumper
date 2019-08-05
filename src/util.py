@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urllib, os, json, time, urllib.request, subprocess
+import urllib, os, json, time, urllib.request, subprocess, datetime
 from pprint import pprint
 from bs4 import BeautifulSoup
 from multiprocessing import Pool, Value, Array
@@ -26,6 +26,11 @@ def save(text, filepath):
 	with open(filepath, 'w', encoding="utf-8") as my_file:
 		my_file.write(text)
 
+def links_extract(url):
+	data = fetch_url(url)
+	soup = BeautifulSoup(data, "lxml")
+	return [link for link in soup.findAll('a')]	
+
 def select_extract(url, name):
 	obj = {}
 	print (url)
@@ -37,6 +42,15 @@ def select_extract(url, name):
 	obj.pop("")
 	return obj
 
+def time():
+	now = datetime.datetime.now()
+	d = int(now.strftime("%d"))
+	m = int(now.strftime("%m"))
+	Y = int(now.strftime("%Y"))
+	y = int(now.strftime("%y"))
+	M = now.strftime("%b")
+	return {'d':d, 'm':m, 'y':y, 'M': M, 'Y':Y}
+	
 ####################################################################
 host = "https://pesstatsdatabase.com"
 
