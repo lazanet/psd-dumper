@@ -4,7 +4,6 @@ with open(os.path.join("data",'championships.json')) as json_file:
     nations = json.load(json_file)
 
 all_players = {}
-clubs = {}
 
 for nation in nations:
 	for championship in nations[nation]:
