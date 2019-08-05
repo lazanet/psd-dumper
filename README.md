@@ -5,4 +5,3 @@ Tool which dumps latest snapshot of all stats from PesStatsDatabase
  - Python3
  - Beautiful Soup (from pip)
  - curl
-
