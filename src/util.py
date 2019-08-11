@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import urllib, os, json, time, urllib.request, subprocess, datetime
 from pprint import pprint
+from shutil import copy
 from bs4 import BeautifulSoup
 from multiprocessing import Pool, Value, Array
 
@@ -16,13 +17,25 @@ def fetch_url(url, mode="PYTHON"):
 		stdout,stderr = out.communicate()
 		return stdout
 
+def download_url(url, filename):
+	agent =  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36"
+	req = urllib.request.Request(url, data=None, headers={'User-Agent': agent})
+	with urllib.request.urlopen(req) as f:
+		data = f.read()
+	create_path(filename)
+	with open(filename, 'wb') as f:
+		f.write(data)
+
 def exp_json(data):
 	return json.dumps(data, indent=4, ensure_ascii=False)
 
-def save(text, filepath):
-	dirs = os.path.dirname(filepath)
-	if not dirs != '' and not os.path.exists(dirs):
+def create_path(path):
+	dirs = os.path.dirname(path)
+	if not os.path.exists(dirs):
 		os.makedirs(dirs, exist_ok = True)
+
+def save(text, filepath):
+	create_path(filepath)
 	with open(filepath, 'w', encoding="utf-8") as my_file:
 		my_file.write(text)
 
