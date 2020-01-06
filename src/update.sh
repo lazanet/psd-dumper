@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#python3 fetchChampionships.py
-#python3 fetchSquads.py
-#python3 updatePlayers.py
+python3 fetchChampionships.py
+python3 fetchSquads.py
+python3 updatePlayers.py
 pushd ..
 mkdir -p dumps
 cd data
